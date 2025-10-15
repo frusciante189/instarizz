@@ -8,8 +8,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,8 +18,17 @@
   }
 }
 
+@utility bg-gradient-radial-pink {
+  background-image: radial-gradient(192.75% 88.91% at 50.13% 0%, #FF6F91 0%, #FF9671 99.99%);
+}
+
 body {
-  background: var(--background);
+  background-image: radial-gradient(192.75% 88.91% at 50.13% 0%, #FF6F91 0%, #FF9671 99.99%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  height: 100vh;
+  overflow: hidden;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-poppins), sans-serif;
 }

@@ -1,0 +1,121 @@
+[
+  {
+    "id": 1,
+    "question": "What's your Gender?",
+    "options": [
+      {
+        "emoji": "👱🏽",
+        "text": "Male",
+        "value": "male"
+      },
+      {
+        "emoji": "👩🏽",
+        "text": "Female",
+        "value": "female"
+      },
+      {
+        "emoji": "⚧️",
+        "text": "Other",
+        "value": "other"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "question": "What's your age?",
+    "options": [
+      {
+        "emoji": "👶🏽",
+        "text": "under 18",
+        "value": "under-18"
+      },
+      {
+        "emoji": "🧑🏽",
+        "text": "18-24",
+        "value": "18-24"
+      },
+      {
+        "emoji": "👨🏽",
+        "text": "25-34",
+        "value": "25-34"
+      },
+      {
+        "emoji": "🧔🏽",
+        "text": "35-44",
+        "value": "35-44"
+      },
+      {
+        "emoji": "👴🏽",
+        "text": "> 45",
+        "value": "45+"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "question": "Interested in",
+    "options": [
+      {
+        "emoji": "👨🏽",
+        "text": "Men",
+        "value": "men"
+      },
+      {
+        "emoji": "👩🏾",
+        "text": "Women",
+        "value": "women"
+      },
+      {
+        "emoji": "⚧️",
+        "text": "Both",
+        "value": "both"
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Looking for",
+    "options": [
+      {
+        "emoji": "🎉",
+        "text": "something casual",
+        "value": "casual"
+      },
+      {
+        "emoji": "💑",
+        "text": "long-term partner",
+        "value": "long_term"
+      },
+      {
+        "emoji": "💫",
+        "text": "soul mate",
+        "value": "soul_mate"
+      },
+      {
+        "emoji": "🤷",
+        "text": "still figuring out",
+        "value": "figuring_out"
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "question": "Target Age Range",
+    "type": "slider",
+    "min": 18,
+    "max": 70,
+    "defaultValue": [25, 35]
+  },
+  {
+    "id": 6,
+    "question": "What's your email?",
+    "type": "input",
+    "inputType": "email",
+    "placeholder": "your.email@gmail.com"
+  },
+  {
+    "id": 7,
+    "question": "Let's see your Profile",
+    "type": "file_upload"
+  }
+]
