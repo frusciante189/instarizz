@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${poppins.className} antialiased`}>
-        <div className="sm:max-w-2xl max-w-lg mx-auto p-4 h-full flex flex-col">
+        <div className="w-full max-w-md mx-auto p-4 h-screen max-h-screen flex flex-col overflow-hidden">
           <Image
             src={"/instarizz.svg"}
             width={103}

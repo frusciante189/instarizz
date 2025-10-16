@@ -27,8 +27,16 @@ body {
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
-  height: 100vh;
+  min-height: 100vh;
+  max-height: 100vh;
   overflow: hidden;
   color: var(--foreground);
   font-family: var(--font-poppins), sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button {
+  cursor: pointer;
 }

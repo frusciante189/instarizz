@@ -8,7 +8,6 @@ interface MainProps {
 }
 
 const Main = ({ onStartOnboarding }: MainProps) => {
-
   return (
     <div className="flex flex-col gap-7">
       <h1 className="font-poppins font-extrabold text-xl tracking-normal text-black pt-5">
@@ -25,10 +24,10 @@ const Main = ({ onStartOnboarding }: MainProps) => {
       />
       <p className="font-poppins font-medium text-base tracking-normal">
         Your Instagram says more than you think. Whether in dating or real life,
-        it&apos;s your social resume. This tool helps you analyze and upgrade it for
-        maximum attraction.
+        it&apos;s your social resume. This tool helps you analyze and upgrade it
+        for maximum attraction.
       </p>
-      <Button onClick={onStartOnboarding}>
+      <Button onClick={onStartOnboarding} className="mx-auto">
         <span className="text-black font-extrabold text-2xl leading-none">
           Analyze my Profile
         </span>
