@@ -26,6 +26,7 @@ export default function Button({
   return (
     <button
       className={`h-[72px] w-full max-w-[340px] rounded-[24px] border font-medium ${getStyles()} ${className}`}
+      style={variant === "green" ? { boxShadow: "0px 2px 4px 0px #EFC97C4D" } : undefined}
       {...props}
     >
       {children}

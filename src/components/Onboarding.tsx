@@ -5,6 +5,8 @@ import OnboardingStep from "./OnboardingStep";
 import OnboardingSliderStep from "./OnboardingSliderStep";
 import OnboardingInputStep from "./OnboardingInputStep";
 import FileUploadStep from "./FileUploadStep";
+import AnalyzingScreen from "./AnalyzingScreen";
+import ResultsScreen from "./ResultsScreen";
 import questions from "@/data/questions.json";
 
 interface Answer {
@@ -12,9 +14,12 @@ interface Answer {
   value: string | number[] | File[];
 }
 
+type ScreenState = "onboarding" | "analyzing" | "results";
+
 export default function Onboarding() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
+  const [screenState, setScreenState] = useState<ScreenState>("onboarding");
 
   const currentQuestion = questions[currentStep];
 
@@ -31,10 +36,15 @@ export default function Onboarding() {
       if (currentStep < questions.length - 1) {
         setCurrentStep(currentStep + 1);
       } else {
-        // Handle completion - you can add your logic here
+        // Last step completed - start analysis
         console.log("Onboarding completed!", updatedAnswers);
+        setScreenState("analyzing");
       }
     }, 300);
+  };
+
+  const handleAnalysisComplete = () => {
+    setScreenState("results");
   };
 
   const handleBack = () => {
@@ -48,6 +58,25 @@ export default function Onboarding() {
     return answer ? answer.value : null;
   };
 
+  // Show analyzing screen
+  if (screenState === "analyzing") {
+    return (
+      <div className="flex-1 flex flex-col">
+        <AnalyzingScreen onComplete={handleAnalysisComplete} />
+      </div>
+    );
+  }
+
+  // Show results screen
+  if (screenState === "results") {
+    return (
+      <div className="flex-1 flex flex-col">
+        <ResultsScreen />
+      </div>
+    );
+  }
+
+  // Onboarding flow
   const isSliderStep = currentQuestion.type === "slider";
   const isFileUploadStep = currentQuestion.type === "file_upload";
   const isInputStep = currentQuestion.type === "input";

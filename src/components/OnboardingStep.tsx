@@ -22,10 +22,10 @@ export default function OnboardingStep({
   onSelect,
 }: OnboardingStepProps) {
   return (
-    <div className="flex flex-col items-center h-full pt-12">
+    <div className="flex flex-col items-center h-full pt-12 overflow-y-auto flex-1">
       <Title>{question}</Title>
 
-      <div className="flex flex-col gap-8 my-14 w-full items-center flex-1">
+      <div className="flex flex-col gap-8 my-14 w-full items-center flex-1 pb-4">
         {options.map((option) => (
           <Button
             key={option.value}
