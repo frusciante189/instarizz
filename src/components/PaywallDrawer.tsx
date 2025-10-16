@@ -1,14 +1,47 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "./Button";
 
 interface PaywallDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  onOpenCheckout: () => void;
 }
 
-export default function PaywallDrawer({ isOpen, onClose }: PaywallDrawerProps) {
+interface Testimonial {
+  rating: number;
+  text: string;
+  author: string;
+}
+
+const testimonials: Testimonial[] = [
+  {
+    rating: 5,
+    text: "This analysis completely transformed my dating profile. Got 3x more matches in the first week!",
+    author: "Sarah M., verified user"
+  },
+  {
+    rating: 4,
+    text: "The detailed feedback was incredibly helpful. I never realized what I was doing wrong until now!",
+    author: "Mike T., verified user"
+  },
+  {
+    rating: 5,
+    text: "Worth every penny! The photo recommendations alone made a huge difference in my match quality.",
+    author: "Jessica R., verified user"
+  },
+  {
+    rating: 4,
+    text: "Finally getting matches with people I'm actually interested in. This tool is a game changer!",
+    author: "David L., verified user"
+  }
+];
+
+export default function PaywallDrawer({ isOpen, onClose, onOpenCheckout }: PaywallDrawerProps) {
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
   // Prevent body scroll when drawer is open
   useEffect(() => {
     if (isOpen) {
@@ -20,6 +53,37 @@ export default function PaywallDrawer({ isOpen, onClose }: PaywallDrawerProps) {
       document.body.style.overflow = "unset";
     };
   }, [isOpen]);
+
+  // Auto-rotate testimonials every 5 seconds
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const interval = setInterval(() => {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+        setIsTransitioning(false);
+      }, 300);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isOpen]);
+
+  const handleDotClick = (index: number) => {
+    if (index === currentTestimonial) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentTestimonial(index);
+      setIsTransitioning(false);
+    }, 300);
+  };
+
+  const handleGetFullReview = () => {
+    onClose(); // Close the paywall drawer
+    setTimeout(() => {
+      onOpenCheckout(); // Open the checkout UI
+    }, 300); // Small delay for smooth transition
+  };
 
   if (!isOpen) return null;
 
@@ -69,14 +133,16 @@ export default function PaywallDrawer({ isOpen, onClose }: PaywallDrawerProps) {
                 Unlock Your Full Analysis
               </h2>
               <p className="text-black/60 font-medium text-base">
-                Get detailed insights to maximize your profile's potential
+                Get detailed insights to maximize your profile&apos;s potential
               </p>
             </div>
 
             {/* Pricing Card */}
             <div className="bg-gradient-to-br from-[#FFBFA8] to-[#FFA88A] rounded-3xl p-6 mb-6 border-2 border-[#E38E75]">
               <div className="flex items-baseline justify-center gap-2 mb-2">
-                <span className="text-5xl font-extrabold text-white">$9.99</span>
+                <span className="text-5xl font-extrabold text-white">
+                  $9.99
+                </span>
               </div>
               <p className="text-white/90 text-center font-semibold text-sm">
                 One-time payment • Lifetime access
@@ -113,7 +179,8 @@ export default function PaywallDrawer({ isOpen, onClose }: PaywallDrawerProps) {
                   </div>
                   <div>
                     <p className="text-black font-semibold text-sm">
-                      Detailed photo-by-photo analysis with specific improvement advice
+                      Detailed photo-by-photo analysis with specific improvement
+                      advice
                     </p>
                   </div>
                 </div>
@@ -137,7 +204,8 @@ export default function PaywallDrawer({ isOpen, onClose }: PaywallDrawerProps) {
                   </div>
                   <div>
                     <p className="text-black font-semibold text-sm">
-                      Expert bio review and prompt analyses to improve your written content
+                      Expert bio review and prompt analyses to improve your
+                      written content
                     </p>
                   </div>
                 </div>
@@ -192,42 +260,71 @@ export default function PaywallDrawer({ isOpen, onClose }: PaywallDrawerProps) {
               </div>
             </div>
 
-            {/* Social Proof */}
-            <div className="bg-[#FFF2E1] rounded-2xl p-4 mb-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="flex">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <svg
-                      key={star}
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 24 24"
-                      fill="#FF897C"
-                      stroke="#FF897C"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                    </svg>
-                  ))}
+            {/* Social Proof - Testimonial Carousel */}
+            <div className="bg-[#FFF2E1] rounded-2xl p-4 mb-6 relative overflow-hidden">
+              {/* Testimonial Content */}
+              <div
+                className={`transition-all duration-300 ease-in-out ${
+                  isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+                }`}
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="flex">
+                    {Array.from({ length: testimonials[currentTestimonial].rating }).map((_, index) => (
+                      <svg
+                        key={index}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="#FF897C"
+                        stroke="#FF897C"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+                      </svg>
+                    ))}
+                  </div>
+                  <span className="text-black font-bold text-sm">4.9/5</span>
                 </div>
-                <span className="text-black font-bold text-sm">4.9/5</span>
+                <p className="text-black/80 text-sm italic min-h-[3rem]">
+                  &quot;{testimonials[currentTestimonial].text}&quot;
+                </p>
+                <p className="text-black/60 text-xs mt-2">
+                  — {testimonials[currentTestimonial].author}
+                </p>
               </div>
-              <p className="text-black/80 text-sm italic">
-                "This analysis completely transformed my dating profile. Got 3x more
-                matches in the first week!"
-              </p>
-              <p className="text-black/60 text-xs mt-2">— Sarah M., verified user</p>
+
+              {/* Navigation Dots */}
+              <div className="flex items-center justify-center gap-2 mt-4">
+                {testimonials.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleDotClick(index)}
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      index === currentTestimonial
+                        ? "w-6 bg-[#FF897C]"
+                        : "w-2 bg-[#FF897C]/30 hover:bg-[#FF897C]/50"
+                    }`}
+                    aria-label={`Go to testimonial ${index + 1}`}
+                  />
+                ))}
+              </div>
             </div>
 
             {/* CTA Button */}
-            <Button variant="green" className="w-full mb-4">
-              <span className="text-white font-extrabold text-2xl">
-                Get Full Review Now
-              </span>
-            </Button>
+            <div className="w-full mb-4 flex items-center justify-center">
+              <Button
+                variant="green"
+                onClick={handleGetFullReview}
+              >
+                <span className="text-white font-extrabold text-2xl">
+                  Get Full Review Now
+                </span>
+              </Button>
+            </div>
 
             {/* Trust Signals */}
             <div className="flex items-center justify-center gap-4 text-black/40 text-xs">

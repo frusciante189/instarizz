@@ -3,34 +3,41 @@
 import React, { useState, useEffect, useRef } from "react";
 import Title from "./Title";
 import PaywallDrawer from "./PaywallDrawer";
+import StripeCheckoutUI from "./StripeCheckoutUI";
 
-export default function ResultsScreen() {
+interface ResultsScreenProps {
+  userEmail: string;
+}
+
+export default function ResultsScreen({ userEmail }: ResultsScreenProps) {
   const [showPaywall, setShowPaywall] = useState(false);
-  const [hasTriggered, setHasTriggered] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
   const contentEndRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const isAtBottomRef = useRef(false);
 
   // Detect scroll to bottom using Intersection Observer
   useEffect(() => {
-    if (!contentEndRef.current || hasTriggered) return;
+    if (!contentEndRef.current) return;
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasTriggered) {
+          const wasAtBottom = isAtBottomRef.current;
+          isAtBottomRef.current = entry.isIntersecting;
+
+          // Only show paywall if:
+          // 1. User just reached the bottom (wasn't there before)
+          // 2. Drawer is not already open
+          if (entry.isIntersecting && !wasAtBottom && !showPaywall) {
             setShowPaywall(true);
-            setHasTriggered(true);
-            // Disconnect observer after first trigger
-            if (observerRef.current) {
-              observerRef.current.disconnect();
-            }
           }
         });
       },
       {
         root: null, // viewport
-        rootMargin: "0px",
-        threshold: 0.1, // Trigger when 10% of the element is visible
+        rootMargin: "200px 0px 0px 0px", // Trigger 200px before the marker enters viewport
+        threshold: 0,
       }
     );
 
@@ -41,7 +48,7 @@ export default function ResultsScreen() {
         observerRef.current.disconnect();
       }
     };
-  }, [hasTriggered]);
+  }, [showPaywall]);
 
   return (
     <div className="flex flex-col items-center py-8 flex-1"
@@ -155,7 +162,7 @@ export default function ResultsScreen() {
           </h3>
           <p className="text-black/80 font-medium leading-relaxed mb-4">
             Based on our analysis, implementing these changes could significantly
-            improve your profile's appeal and increase your match rate.
+            improve your profile&apos;s appeal and increase your match rate.
           </p>
           <ul className="space-y-3">
             <li className="flex items-start gap-3">
@@ -179,15 +186,23 @@ export default function ResultsScreen() {
           </ul>
         </div>
 
-        {/* Spacer for scroll */}
-        <div className="h-32" />
-
-        {/* Invisible marker for scroll detection */}
-        <div ref={contentEndRef} className="h-1" />
+        {/* Invisible marker for scroll detection - triggers paywall when visible */}
+        <div ref={contentEndRef} className="h-px" />
       </div>
 
       {/* Paywall Drawer */}
-      <PaywallDrawer isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
+      <PaywallDrawer
+        isOpen={showPaywall}
+        onClose={() => setShowPaywall(false)}
+        onOpenCheckout={() => setShowCheckout(true)}
+      />
+
+      {/* Stripe Checkout UI */}
+      <StripeCheckoutUI
+        isOpen={showCheckout}
+        onClose={() => setShowCheckout(false)}
+        userEmail={userEmail}
+      />
     </div>
   );
 }

@@ -20,11 +20,32 @@ export default function OnboardingInputStep({
   onContinue,
 }: OnboardingInputStepProps) {
   const [value, setValue] = useState<string>(currentValue || "");
+  const [error, setError] = useState<string>("");
+
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const handleValueChange = (newValue: string) => {
+    setValue(newValue);
+    // Clear error when user starts typing
+    if (error) {
+      setError("");
+    }
+  };
 
   const handleContinue = () => {
     if (!value.trim()) {
       return;
     }
+
+    if (inputType === "email" && !isValidEmail(value)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    setError("");
     onContinue(value);
   };
 
@@ -34,12 +55,12 @@ export default function OnboardingInputStep({
         <div className="flex flex-col items-center">
           <Title>{question}</Title>
 
-          <div className="flex flex-col mt-14 w-full items-center px-4">
-            <div className="w-[250px] flex justify-center">
+          <div className="flex flex-col mt-14 w-full items-center px-4 gap-6">
+            <div className="w-full flex justify-center py-6 px-8">
               <input
                 type={inputType}
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={(e) => handleValueChange(e.target.value)}
                 placeholder={placeholder}
                 className="w-full text-xl font-extrabold text-[#0D0D0D] placeholder:text-[#0D0D0D] placeholder:opacity-50 text-center"
                 style={{
@@ -49,6 +70,15 @@ export default function OnboardingInputStep({
                 }}
               />
             </div>
+
+            {/* Error message */}
+            {error && (
+              <div className="w-full max-w-[600px] bg-red-50 border border-red-200 rounded-2xl px-4 py-3 animate-fade-in">
+                <p className="text-red-600 font-semibold text-sm text-center">
+                  {error}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </div>

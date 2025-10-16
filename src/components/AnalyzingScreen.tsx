@@ -11,12 +11,108 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
   const [progress, setProgress] = useState(0);
   const [currentMessage, setCurrentMessage] = useState(0);
 
-  const messages = [
-    "Analyzing your profile...",
-    "Evaluating image quality...",
-    "Assessing visual appeal...",
-    "Calculating attraction score...",
-    "Generating insights...",
+  const analysisSteps = [
+    {
+      message: "Analyzing your profile...",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      ),
+    },
+    {
+      message: "Evaluating image quality...",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+          <circle cx="9" cy="9" r="2" />
+          <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+        </svg>
+      ),
+    },
+    {
+      message: "Assessing visual appeal...",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+          <circle cx="12" cy="12" r="3" />
+        </svg>
+      ),
+    },
+    {
+      message: "Calculating attraction score...",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z" />
+        </svg>
+      ),
+    },
+    {
+      message: "Generating insights...",
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="48"
+          height="48"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="white"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 2v6" />
+          <path d="M12 16v6" />
+          <path d="m4.93 4.93 4.24 4.24" />
+          <path d="m14.83 14.83 4.24 4.24" />
+          <path d="M2 12h6" />
+          <path d="M16 12h6" />
+          <path d="m4.93 19.07 4.24-4.24" />
+          <path d="m14.83 9.17 4.24-4.24" />
+        </svg>
+      ),
+    },
   ];
 
   useEffect(() => {
@@ -40,52 +136,34 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
 
     // Message rotation (change every ~1.4 seconds)
     const messageTimer = setInterval(() => {
-      setCurrentMessage((prev) => (prev + 1) % messages.length);
+      setCurrentMessage((prev) => (prev + 1) % analysisSteps.length);
     }, 1400);
 
     return () => {
       clearInterval(progressTimer);
       clearInterval(messageTimer);
     };
-  }, [onComplete]);
+  }, [onComplete, analysisSteps.length]);
 
   return (
     <div className="flex flex-col items-center justify-center h-full px-4 py-12">
       <Title>Analyzing Your Profile</Title>
 
       <div className="flex flex-col items-center gap-8 mt-12 w-full max-w-[600px]">
-        {/* AI Icon with pulse animation */}
+        {/* AI Icon with pulse animation - changes with each step */}
         <div className="relative">
           <div className="absolute inset-0 bg-[#FF897C] rounded-full opacity-20 animate-ping" />
           <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-[#FF897C] to-[#FFA88A] flex items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="animate-pulse"
-            >
-              <path d="M12 2v6" />
-              <path d="M12 16v6" />
-              <path d="m4.93 4.93 4.24 4.24" />
-              <path d="m14.83 14.83 4.24 4.24" />
-              <path d="M2 12h6" />
-              <path d="M16 12h6" />
-              <path d="m4.93 19.07 4.24-4.24" />
-              <path d="m14.83 9.17 4.24-4.24" />
-            </svg>
+            <div className="animate-pulse transition-all duration-500 ease-in-out animate-icon-change" key={currentMessage}>
+              {analysisSteps[currentMessage].icon}
+            </div>
           </div>
         </div>
 
         {/* Status message */}
         <div className="h-8 flex items-center justify-center">
           <p className="text-black font-extrabold text-lg text-center animate-fade-in" key={currentMessage}>
-            {messages[currentMessage]}
+            {analysisSteps[currentMessage].message}
           </p>
         </div>
 

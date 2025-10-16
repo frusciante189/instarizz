@@ -29,6 +29,7 @@ export default function RootLayout({
               width={103}
               height={28}
               alt="InstaRizz"
+              quality={100}
             />
           </div>
           {children}
