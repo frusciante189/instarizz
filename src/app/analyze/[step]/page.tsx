@@ -25,6 +25,9 @@ export default function OnboardingStepPage() {
     string | number[] | File[] | null
   >(null);
 
+  const step = getStepBySlug(stepSlug);
+  const currentQuestion = step ? questions.find((q) => q.id === step.questionId) : null;
+
   // Validate step and redirect if invalid
   useEffect(() => {
     if (!isValidStep(stepSlug)) {
@@ -32,19 +35,17 @@ export default function OnboardingStepPage() {
     }
   }, [stepSlug, router]);
 
-  const step = getStepBySlug(stepSlug);
-  if (!step) return null;
-
-  const currentQuestion = questions.find((q) => q.id === step.questionId);
-  if (!currentQuestion) return null;
-
   // Load saved answer on mount
   useEffect(() => {
-    const savedAnswer = getAnswer(step.questionId);
-    if (savedAnswer) {
-      setCurrentValue(savedAnswer);
+    if (step) {
+      const savedAnswer = getAnswer(step.questionId);
+      if (savedAnswer) {
+        setCurrentValue(savedAnswer);
+      }
     }
-  }, [step.questionId]);
+  }, [step]);
+
+  if (!step || !currentQuestion) return null;
 
   const handleSelect = (value: string | number[] | File[]) => {
     // Save answer

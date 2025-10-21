@@ -5,11 +5,7 @@ import { useRouter } from "next/navigation";
 import Title from "./Title";
 import PaywallDrawer from "./PaywallDrawer";
 
-interface ResultsScreenProps {
-  userEmail: string;
-}
-
-export default function ResultsScreen({ userEmail }: ResultsScreenProps) {
+export default function ResultsScreen() {
   const router = useRouter();
   const [showPaywall, setShowPaywall] = useState(false);
   const contentEndRef = useRef<HTMLDivElement>(null);
@@ -117,7 +113,7 @@ export default function ResultsScreen({ userEmail }: ResultsScreenProps) {
         >
           <h3 className="text-black font-extrabold text-xl mb-4 flex items-center gap-2">
             <span className="text-2xl">✓</span>
-            What's Working
+            What&apos;s Working
           </h3>
           <ul className="space-y-3">
             <li className="flex items-start gap-3">
@@ -145,12 +141,12 @@ export default function ResultsScreen({ userEmail }: ResultsScreenProps) {
           </div>
           <h3 className="text-white font-extrabold text-xl mb-3 flex items-center gap-2">
             <span className="text-2xl">🎯</span>
-            What You're Missing
+            What You&apos;re Missing
           </h3>
           <p className="text-white font-medium leading-relaxed blur-sm select-none">
             Your profile has 8 specific issues that are killing your match rate.
             Our analysis shows exactly which photos to remove, what order works best,
-            and the psychological triggers you're missing. One simple change could
+            and the psychological triggers you&apos;re missing. One simple change could
             increase your matches by 340%...
           </p>
         </div>
