@@ -25,7 +25,7 @@ export default function RootLayout({
         <div className="w-full max-w-md mx-auto min-h-dvh flex flex-col px-4">
           <div className="py-4">
             <Image
-              src={"/instarizz.svg"}
+              src={"/instarizz.png"}
               width={103}
               height={28}
               alt="InstaRizz"
