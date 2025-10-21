@@ -69,13 +69,9 @@ export default function Onboarding() {
 
   // Show results screen
   if (screenState === "results") {
-    // Get email from answers
-    const emailAnswer = answers.find((a) => a.questionId === 6);
-    const userEmail = emailAnswer && typeof emailAnswer.value === "string" ? emailAnswer.value : "";
-
     return (
       <div className="flex-1 flex flex-col">
-        <ResultsScreen userEmail={userEmail} />
+        <ResultsScreen />
       </div>
     );
   }
