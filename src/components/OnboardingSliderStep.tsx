@@ -40,7 +40,7 @@ export default function OnboardingSliderStep({
           <Title>{question}</Title>
 
           {description && (
-            <p className="text-center text-black/70 mt-4 px-6 text-base">
+            <p className="text-center text-black/70 mt-4 px-6 text-base whitespace-pre-line">
               {description}
             </p>
           )}

@@ -15,30 +15,69 @@ interface Testimonial {
   author: string;
 }
 
+// Reusable Star Rating Component
+const StarRating = ({
+  rating,
+  showScore = false,
+}: {
+  rating: number;
+  showScore?: boolean;
+}) => {
+  return (
+    <div className="flex items-center gap-2">
+      <div className="flex">
+        {Array.from({ length: 5 }).map((_, index) => (
+          <svg
+            key={index}
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill={index < rating ? "#FF897C" : "none"}
+            stroke="#FF897C"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+          </svg>
+        ))}
+      </div>
+      {showScore && (
+        <span className="text-black font-bold text-sm">{rating}/5</span>
+      )}
+    </div>
+  );
+};
+
 const testimonials: Testimonial[] = [
   {
     rating: 5,
-    text: "This analysis completely transformed my dating profile. Got 3x more matches in the first week!",
-    author: "Sarah M., verified user"
-  },
-  {
-    rating: 4,
-    text: "The detailed feedback was incredibly helpful. I never realized what I was doing wrong until now!",
-    author: "Mike T., verified user"
+    text: "This analysis completely transformed my Instagram profile. My engagement increased by 3x in the first week!",
+    author: "Sarah M., verified user",
   },
   {
     rating: 5,
-    text: "Worth every penny! The photo recommendations alone made a huge difference in my match quality.",
-    author: "Jessica R., verified user"
+    text: "The detailed feedback was incredibly helpful. I never realized what I was doing wrong until now!",
+    author: "Mike T., verified user",
   },
   {
     rating: 4,
-    text: "Finally getting matches with people I'm actually interested in. This tool is a game changer!",
-    author: "David L., verified user"
-  }
+    text: "Worth every penny! The photo recommendations alone made a huge difference in my content quality.",
+    author: "Jessica R., verified user",
+  },
+  {
+    rating: 5,
+    text: "Finally getting the engagement I deserve. This tool is a game changer for my Instagram growth!",
+    author: "David L., verified user",
+  },
 ];
 
-export default function PaywallDrawer({ isOpen, onClose, onOpenCheckout }: PaywallDrawerProps) {
+export default function PaywallDrawer({
+  isOpen,
+  onClose,
+  onOpenCheckout,
+}: PaywallDrawerProps) {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
@@ -97,14 +136,14 @@ export default function PaywallDrawer({ isOpen, onClose, onOpenCheckout }: Paywa
 
       {/* Drawer */}
       <div className="fixed inset-x-0 bottom-0 z-50 animate-slide-up">
-        <div className="bg-white rounded-t-[32px] shadow-2xl max-w-md mx-auto">
+        <div className="bg-white rounded-t-[32px] shadow-2xl max-w-md mx-auto flex flex-col max-h-[90vh]">
           {/* Handle Bar */}
-          <div className="flex justify-center pt-3 pb-2">
+          <div className="flex justify-center pt-3 pb-2 flex-shrink-0">
             <div className="w-12 h-1.5 bg-black/20 rounded-full" />
           </div>
 
-          {/* Content */}
-          <div className="px-6 pb-8 pt-4 max-h-[85vh] overflow-y-auto">
+          {/* Scrollable Content */}
+          <div className="px-6 pt-4 overflow-y-auto flex-1">
             {/* Close Button */}
             <button
               onClick={onClose}
@@ -138,7 +177,7 @@ export default function PaywallDrawer({ isOpen, onClose, onOpenCheckout }: Paywa
             </div>
 
             {/* Pricing Card */}
-            <div className="bg-gradient-to-br from-[#FFBFA8] to-[#FFA88A] rounded-3xl p-6 mb-6 border-2 border-[#E38E75]">
+            <div className="bg-gradient-to-br from-[#FFD700] to-[#FFA500] rounded-3xl p-6 mb-6 border-2 border-[#DAA520]">
               <div className="flex items-baseline justify-center gap-2 mb-2">
                 <span className="text-5xl font-extrabold text-white">
                   $9.99
@@ -253,7 +292,7 @@ export default function PaywallDrawer({ isOpen, onClose, onOpenCheckout }: Paywa
                   </div>
                   <div>
                     <p className="text-black font-semibold text-sm">
-                      Personalized action plan to maximize your matches
+                      Personalized action plan to maximize your engagement
                     </p>
                   </div>
                 </div>
@@ -265,29 +304,16 @@ export default function PaywallDrawer({ isOpen, onClose, onOpenCheckout }: Paywa
               {/* Testimonial Content */}
               <div
                 className={`transition-all duration-300 ease-in-out ${
-                  isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+                  isTransitioning
+                    ? "opacity-0 translate-y-2"
+                    : "opacity-100 translate-y-0"
                 }`}
               >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="flex">
-                    {Array.from({ length: testimonials[currentTestimonial].rating }).map((_, index) => (
-                      <svg
-                        key={index}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="#FF897C"
-                        stroke="#FF897C"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                      </svg>
-                    ))}
-                  </div>
-                  <span className="text-black font-bold text-sm">4.9/5</span>
+                <div className="mb-2">
+                  <StarRating
+                    rating={testimonials[currentTestimonial].rating}
+                    showScore={true}
+                  />
                 </div>
                 <p className="text-black/80 text-sm italic min-h-[3rem]">
                   &quot;{testimonials[currentTestimonial].text}&quot;
@@ -313,13 +339,12 @@ export default function PaywallDrawer({ isOpen, onClose, onOpenCheckout }: Paywa
                 ))}
               </div>
             </div>
+          </div>
 
-            {/* CTA Button */}
-            <div className="w-full mb-4 flex items-center justify-center">
-              <Button
-                variant="green"
-                onClick={handleGetFullReview}
-              >
+          {/* Sticky CTA Button Section */}
+          <div className="sticky bottom-0 px-6 py-4 bg-white/80 backdrop-blur-md flex-shrink-0 before:absolute before:inset-x-0 before:top-0 before:h-8 before:-translate-y-full before:bg-gradient-to-t before:from-white/60 before:to-transparent before:pointer-events-none">
+            <div className="w-full mb-3 flex items-center justify-center">
+              <Button variant="green" onClick={handleGetFullReview}>
                 <span className="text-white font-extrabold text-2xl">
                   Get Full Review Now
                 </span>

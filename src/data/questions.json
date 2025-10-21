@@ -101,7 +101,7 @@
   {
     "id": 5,
     "question": "Target Age Range",
-    "description": "What age range are you looking to attract?",
+    "description": "What age range are you\nlooking to attract?",
     "type": "slider",
     "min": 18,
     "max": 70,

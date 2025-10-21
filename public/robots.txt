@@ -1,0 +1,28 @@
+# InstaRizz - Robots.txt
+# Allow all search engines to crawl public pages
+
+User-agent: *
+Allow: /
+Disallow: /analyze/
+Disallow: /analyzing
+Disallow: /results
+Disallow: /checkout
+Disallow: /success
+Disallow: /slider-demo
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://instarizz.com/sitemap.xml
+
+# Rate limiting for well-behaved bots
+Crawl-delay: 1
+
+# Block bad bots (optional - uncomment if needed)
+# User-agent: AhrefsBot
+# Disallow: /
+
+# User-agent: SemrushBot
+# Disallow: /
+
+# User-agent: MJ12bot
+# Disallow: /

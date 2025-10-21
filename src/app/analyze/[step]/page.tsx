@@ -5,7 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import {
   getStepBySlug,
   getNextStepSlug,
-  getPreviousStepSlug,
+  // getPreviousStepSlug,
   isValidStep,
   STEPS,
 } from "@/config/steps";
@@ -66,20 +66,20 @@ export default function OnboardingStepPage() {
     }, 300);
   };
 
-  const handleBack = () => {
-    const previousSlug = getPreviousStepSlug(stepSlug);
-    if (previousSlug) {
-      router.push(`/analyze/${previousSlug}`);
-    } else {
-      router.push("/");
-    }
-  };
+  // const handleBack = () => {
+  //   const previousSlug = getPreviousStepSlug(stepSlug);
+  //   if (previousSlug) {
+  //     router.push(`/analyze/${previousSlug}`);
+  //   } else {
+  //     router.push("/");
+  //   }
+  // };
 
   const isSliderStep = currentQuestion.type === "slider";
   const isFileUploadStep = currentQuestion.type === "file_upload";
   const isInputStep = currentQuestion.type === "input";
-  const showBackButton =
-    getPreviousStepSlug(stepSlug) !== null || stepSlug !== STEPS[0].slug;
+  // const showBackButton =
+  //   getPreviousStepSlug(stepSlug) !== null || stepSlug !== STEPS[0].slug;
 
   return (
     <div className="flex-1 flex flex-col">
