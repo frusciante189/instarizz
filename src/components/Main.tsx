@@ -9,7 +9,7 @@ interface MainProps {
 
 const Main = ({ onStartOnboarding }: MainProps) => {
   return (
-    <div className="flex flex-col gap-7 overflow-y-auto flex-1 pb-4 h-lvh">
+    <div className="flex flex-col gap-7 overflow-y-auto flex-1 pb-4 h-dvh">
       <h1 className="font-poppins font-extrabold text-xl tracking-normal text-black pt-5">
         Everyone knows: <br /> Instagram is the{" "}
         <span className="font-poppins font-extrabold text-xl tracking-normal text-white">
