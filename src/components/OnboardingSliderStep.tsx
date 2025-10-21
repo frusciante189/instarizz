@@ -7,6 +7,7 @@ import { Slider } from "./ui/slider";
 
 interface OnboardingSliderStepProps {
   question: string;
+  description?: string;
   min: number;
   max: number;
   defaultValue: number[];
@@ -16,6 +17,7 @@ interface OnboardingSliderStepProps {
 
 export default function OnboardingSliderStep({
   question,
+  description,
   min,
   max,
   defaultValue,
@@ -36,6 +38,12 @@ export default function OnboardingSliderStep({
       <div className="flex-1 overflow-y-auto pt-12 pb-32">
         <div className="flex flex-col items-center">
           <Title>{question}</Title>
+
+          {description && (
+            <p className="text-center text-black/70 mt-4 px-6 text-base">
+              {description}
+            </p>
+          )}
 
           <div className="flex flex-col mt-14 w-full items-center px-4">
             <div className="w-full max-w-md px-4 py-2.5 bg-[#FFF2E1] rounded-3xl">

@@ -26,7 +26,9 @@ export default function OnboardingStepPage() {
   >(null);
 
   const step = getStepBySlug(stepSlug);
-  const currentQuestion = step ? questions.find((q) => q.id === step.questionId) : null;
+  const currentQuestion = step
+    ? questions.find((q) => q.id === step.questionId)
+    : null;
 
   // Validate step and redirect if invalid
   useEffect(() => {
@@ -81,31 +83,6 @@ export default function OnboardingStepPage() {
 
   return (
     <div className="flex-1 flex flex-col">
-      {showBackButton && (
-        <button
-          onClick={handleBack}
-          className="cursor-pointer bg-gradient-to-b from-[#FFBFA8] to-[#FFA88A] size-8 rounded-full flex items-center justify-center absolute top-4 right-4 z-10 hover:opacity-70 transition-opacity"
-        >
-          <div className="text-2xl" aria-label="Go back">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="size-5"
-            >
-              <path d="m12 19-7-7 7-7" />
-              <path d="M19 12H5" />
-            </svg>
-          </div>
-        </button>
-      )}
-
       {isFileUploadStep ? (
         <FileUploadStep
           question={currentQuestion.question}
@@ -119,6 +96,7 @@ export default function OnboardingStepPage() {
       ) : isSliderStep ? (
         <OnboardingSliderStep
           question={currentQuestion.question}
+          description={currentQuestion.description}
           min={currentQuestion.min || 18}
           max={currentQuestion.max || 70}
           defaultValue={currentQuestion.defaultValue || [18, 70]}

@@ -98,9 +98,12 @@ export default function ResultsScreen() {
               <span className="text-[#FF6B5B] font-bold text-lg mt-0.5">!</span>
               <div>
                 <span className="text-black font-medium">3 major red flags detected</span>
-                <span className="block text-black/50 text-sm mt-1 italic">
+                <button
+                  onClick={() => setShowPaywall(true)}
+                  className="block text-[#FF6B5B] text-sm mt-1 italic underline hover:text-[#FF897C] transition-colors cursor-pointer"
+                >
                   Unlock to see specific issues
-                </span>
+                </button>
               </div>
             </li>
           </ul>
@@ -129,8 +132,9 @@ export default function ResultsScreen() {
         </div>
 
         {/* Hidden Potential - Create curiosity */}
-        <div
-          className="bg-gradient-to-br from-[#FFBFA8] to-[#FFA88A] rounded-3xl p-6 border border-[#E38E75]/80 animate-fade-in relative"
+        <button
+          onClick={() => setShowPaywall(true)}
+          className="bg-gradient-to-br from-[#FFBFA8] to-[#FFA88A] rounded-3xl p-6 border border-[#E38E75]/80 animate-fade-in relative w-full cursor-pointer hover:shadow-lg transition-shadow"
           style={{ animationDelay: "0.3s" }}
         >
           <div className="absolute inset-0 bg-black/5 backdrop-blur-[2px] rounded-3xl flex items-center justify-center">
@@ -149,7 +153,7 @@ export default function ResultsScreen() {
             and the psychological triggers you&apos;re missing. One simple change could
             increase your matches by 340%...
           </p>
-        </div>
+        </button>
 
         {/* Comparison - Show what they could have */}
         <div
@@ -179,7 +183,10 @@ export default function ResultsScreen() {
                 <div className="h-full bg-[#FF6B5B] rounded-full" style={{ width: "34%" }} />
               </div>
             </div>
-            <div className="relative">
+            <button
+              onClick={() => setShowPaywall(true)}
+              className="relative w-full cursor-pointer hover:scale-105 transition-transform"
+            >
               <div className="flex justify-between mb-2">
                 <span className="text-black/70 font-medium">Match Potential</span>
                 <span className="text-black/30 font-bold">???</span>
@@ -188,11 +195,11 @@ export default function ResultsScreen() {
                 <div className="h-full bg-gradient-to-r from-[#FF6B5B] to-[#00D66F] rounded-full" style={{ width: "67%" }} />
               </div>
               <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-xs font-bold text-black/50 bg-white/80 px-2 py-1 rounded">
+                <span className="text-xs font-bold text-[#FF6B5B] bg-white/90 px-3 py-1.5 rounded-full shadow-md hover:bg-white transition-colors">
                   🔒 Unlock Full Report
                 </span>
               </div>
-            </div>
+            </button>
           </div>
           <p className="text-black/60 text-sm mt-4 italic text-center">
             Top profiles score 8.5+. See exactly what separates you from them...
