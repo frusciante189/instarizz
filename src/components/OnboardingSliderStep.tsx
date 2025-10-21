@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "./Title";
 import Button from "./Button";
 import { Slider } from "./ui/slider";
@@ -23,6 +23,13 @@ export default function OnboardingSliderStep({
   onContinue,
 }: OnboardingSliderStepProps) {
   const [value, setValue] = useState<number[]>(currentValue || defaultValue);
+
+  // Update state when currentValue prop changes
+  useEffect(() => {
+    if (currentValue) {
+      setValue(currentValue);
+    }
+  }, [currentValue]);
 
   return (
     <div className="flex flex-col h-full flex-1">

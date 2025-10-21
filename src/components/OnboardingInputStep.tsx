@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Title from "./Title";
 import Button from "./Button";
 
@@ -21,6 +21,13 @@ export default function OnboardingInputStep({
 }: OnboardingInputStepProps) {
   const [value, setValue] = useState<string>(currentValue || "");
   const [error, setError] = useState<string>("");
+
+  // Update state when currentValue prop changes
+  useEffect(() => {
+    if (currentValue) {
+      setValue(currentValue);
+    }
+  }, [currentValue]);
 
   const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -56,7 +63,7 @@ export default function OnboardingInputStep({
           <Title>{question}</Title>
 
           <div className="flex flex-col mt-14 w-full items-center px-4 gap-6">
-            <div className="w-full flex justify-center py-6 px-8">
+            <div className="w-full flex justify-center py-6 px-2">
               <input
                 type={inputType}
                 value={value}

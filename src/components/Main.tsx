@@ -1,13 +1,12 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import Button from "./Button";
 import ProfileCounter from "./ProfileCounter";
+import { STEPS } from "@/config/steps";
 
-interface MainProps {
-  onStartOnboarding: () => void;
-}
-
-const Main = ({ onStartOnboarding }: MainProps) => {
+const Main = () => {
+  const router = useRouter();
   return (
     <div className="flex flex-col gap-7 overflow-y-auto flex-1 pb-4 h-dvh">
       <h1 className="font-poppins font-extrabold text-xl tracking-normal text-black pt-5">
@@ -28,7 +27,10 @@ const Main = ({ onStartOnboarding }: MainProps) => {
         for maximum attraction.
       </p>
       <div className="flex flex-col gap-7 mt-auto">
-        <Button onClick={onStartOnboarding} className="mx-auto">
+        <Button
+          onClick={() => router.push(`/analyze/${STEPS[0].slug}`)}
+          className="mx-auto"
+        >
           <span className="text-black font-extrabold text-2xl leading-none">
             Analyze my Profile
           </span>
