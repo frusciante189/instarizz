@@ -47,11 +47,11 @@ export default function ResultsScreen() {
   }, [showPaywall]);
 
   return (
-    <div className="flex flex-col items-center py-8 flex-1"
+    <div className="flex flex-col items-center py-8 flex-1 relative"
     >
       <Title>Your Profile Analysis</Title>
 
-      <div className="w-full max-w-[600px] mt-8 space-y-6">
+      <div className="w-full max-w-[600px] mt-8 space-y-6 pb-24">
         {/* Overall Score - Lower, more concerning */}
         <div className="bg-[#FFF2E1] rounded-3xl p-6 border border-[#D8C8B9]/60 animate-fade-in">
           <div className="flex items-center justify-between mb-4">
@@ -209,6 +209,21 @@ export default function ResultsScreen() {
         {/* Invisible marker for scroll detection - triggers paywall when visible */}
         <div ref={contentEndRef} className="h-px" />
       </div>
+
+      {/* Sticky Bottom Button - Only show when paywall is not open */}
+      {!showPaywall && (
+        <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#FFF5F0] via-[#FFF5F0]/95 to-transparent pointer-events-none">
+          <div className="max-w-[600px] mx-auto pointer-events-auto">
+            <button
+              onClick={() => setShowPaywall(true)}
+              className="w-full bg-gradient-to-r from-[#FF6B5B] to-[#FF897C] text-white font-bold text-lg py-4 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+            >
+              <span className="text-2xl">🔓</span>
+              Unlock Full Report
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Paywall Drawer */}
       <PaywallDrawer

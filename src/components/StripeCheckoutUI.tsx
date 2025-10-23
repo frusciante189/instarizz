@@ -19,10 +19,32 @@ export default function StripeCheckoutUI({
   const [expiryDate, setExpiryDate] = useState("");
   const [cvc, setCvc] = useState("");
   const [cardholderName, setCardholderName] = useState("");
-  const [email, setEmail] = useState(userEmail);
+  const [email, setEmail] = useState("");
   const [country, setCountry] = useState("");
   const [saveInfo, setSaveInfo] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [errors, setErrors] = useState({
+    email: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvc: "",
+    cardholderName: "",
+    country: "",
+  });
+
+  // Set email from userEmail prop when component mounts or userEmail changes
+  React.useEffect(() => {
+    if (userEmail) {
+      setEmail(userEmail);
+    }
+  }, [userEmail]);
+
+  // Clear specific error
+  const clearError = (field: keyof typeof errors) => {
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: "" }));
+    }
+  };
 
   // Format card number with spaces
   const formatCardNumber = (value: string) => {
@@ -61,7 +83,82 @@ export default function StripeCheckoutUI({
     }
   };
 
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validateForm = () => {
+    const newErrors = {
+      email: "",
+      cardNumber: "",
+      expiryDate: "",
+      cvc: "",
+      cardholderName: "",
+      country: "",
+    };
+
+    let isValid = true;
+
+    // Validate email
+    if (!email.trim()) {
+      newErrors.email = "Email is required";
+      isValid = false;
+    } else if (!isValidEmail(email)) {
+      newErrors.email = "Please enter a valid email address";
+      isValid = false;
+    }
+
+    // Validate card number
+    const cleanedCardNumber = cardNumber.replace(/\s/g, "");
+    if (!cleanedCardNumber) {
+      newErrors.cardNumber = "Card number is required";
+      isValid = false;
+    } else if (cleanedCardNumber.length !== 16) {
+      newErrors.cardNumber = "Card number must be 16 digits";
+      isValid = false;
+    }
+
+    // Validate expiry date
+    const cleanedExpiry = expiryDate.replace(/\D/g, "");
+    if (!cleanedExpiry) {
+      newErrors.expiryDate = "Expiry date is required";
+      isValid = false;
+    } else if (cleanedExpiry.length !== 4) {
+      newErrors.expiryDate = "Invalid expiry date";
+      isValid = false;
+    }
+
+    // Validate CVC
+    if (!cvc) {
+      newErrors.cvc = "CVC is required";
+      isValid = false;
+    } else if (cvc.length !== 3) {
+      newErrors.cvc = "CVC must be 3 digits";
+      isValid = false;
+    }
+
+    // Validate cardholder name
+    if (!cardholderName.trim()) {
+      newErrors.cardholderName = "Cardholder name is required";
+      isValid = false;
+    }
+
+    // Validate country
+    if (!country) {
+      newErrors.country = "Please select a country";
+      isValid = false;
+    }
+
+    setErrors(newErrors);
+    return isValid;
+  };
+
   const handlePay = () => {
+    if (!validateForm()) {
+      return;
+    }
+
     setIsProcessing(true);
 
     // Simulate payment processing
@@ -127,10 +224,20 @@ export default function StripeCheckoutUI({
             <input
               type="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                clearError("email");
+              }}
               placeholder="email@example.com"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent text-base text-gray-600 placeholder:text-gray-400"
+              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-base text-gray-600 placeholder:text-gray-400 ${
+                errors.email
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-[#635BFF]"
+              }`}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Payment Method Section */}
@@ -149,9 +256,16 @@ export default function StripeCheckoutUI({
               <input
                 type="text"
                 value={cardNumber}
-                onChange={handleCardNumberChange}
+                onChange={(e) => {
+                  handleCardNumberChange(e);
+                  clearError("cardNumber");
+                }}
                 placeholder="1234 1234 1234 1234"
-                className="w-full px-4 py-3 border border-gray-300 rounded-t-lg focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent text-base text-gray-600 pr-32 placeholder:text-gray-400"
+                className={`w-full px-4 py-3 border rounded-t-lg focus:outline-none focus:ring-2 focus:border-transparent text-base text-gray-600 pr-32 placeholder:text-gray-400 ${
+                  errors.cardNumber
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-[#635BFF]"
+                }`}
               />
               {/* Card Brand Icons */}
               <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1">
@@ -243,23 +357,40 @@ export default function StripeCheckoutUI({
                 </svg>
               </div>
             </div>
+            {errors.cardNumber && (
+              <p className="text-red-500 text-sm mt-1">{errors.cardNumber}</p>
+            )}
 
             {/* Expiry and CVC Row */}
             <div className="grid grid-cols-2 gap-0">
               <input
                 type="text"
                 value={expiryDate}
-                onChange={handleExpiryChange}
+                onChange={(e) => {
+                  handleExpiryChange(e);
+                  clearError("expiryDate");
+                }}
                 placeholder="MM / YY"
-                className="px-4 py-3 border border-gray-300 border-t-0 border-r-0 rounded-bl-lg focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent text-base text-gray-600 placeholder:text-gray-400"
+                className={`px-4 py-3 border border-t-0 border-r-0 rounded-bl-lg focus:outline-none focus:ring-2 focus:border-transparent text-base text-gray-600 placeholder:text-gray-400 ${
+                  errors.expiryDate
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-[#635BFF]"
+                }`}
               />
               <div className="relative">
                 <input
                   type="text"
                   value={cvc}
-                  onChange={handleCvcChange}
+                  onChange={(e) => {
+                    handleCvcChange(e);
+                    clearError("cvc");
+                  }}
                   placeholder="CVC"
-                  className="w-full px-4 py-3 border border-gray-300 border-t-0 rounded-br-lg focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent text-base text-gray-600 pr-10 placeholder:text-gray-400"
+                  className={`w-full px-4 py-3 border border-t-0 rounded-br-lg focus:outline-none focus:ring-2 focus:border-transparent text-base text-gray-600 pr-10 placeholder:text-gray-400 ${
+                    errors.cvc
+                      ? "border-red-500 focus:ring-red-500"
+                      : "border-gray-300 focus:ring-[#635BFF]"
+                  }`}
                 />
                 <div className="absolute right-3 top-1/2 -translate-y-1/2">
                   <svg
@@ -287,6 +418,14 @@ export default function StripeCheckoutUI({
                 </div>
               </div>
             </div>
+            {(errors.expiryDate || errors.cvc) && (
+              <div className="mt-1 space-y-1">
+                {errors.expiryDate && (
+                  <p className="text-red-500 text-sm">{errors.expiryDate}</p>
+                )}
+                {errors.cvc && <p className="text-red-500 text-sm">{errors.cvc}</p>}
+              </div>
+            )}
           </div>
 
           {/* Cardholder Name */}
@@ -297,10 +436,20 @@ export default function StripeCheckoutUI({
             <input
               type="text"
               value={cardholderName}
-              onChange={(e) => setCardholderName(e.target.value)}
+              onChange={(e) => {
+                setCardholderName(e.target.value);
+                clearError("cardholderName");
+              }}
               placeholder="Full name on card"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent text-base text-gray-600 placeholder:text-gray-400"
+              className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-base text-gray-600 placeholder:text-gray-400 ${
+                errors.cardholderName
+                  ? "border-red-500 focus:ring-red-500"
+                  : "border-gray-300 focus:ring-[#635BFF]"
+              }`}
             />
+            {errors.cardholderName && (
+              <p className="text-red-500 text-sm mt-1">{errors.cardholderName}</p>
+            )}
           </div>
 
           {/* Country or Region */}
@@ -311,8 +460,15 @@ export default function StripeCheckoutUI({
             <div className="relative">
               <select
                 value={country}
-                onChange={(e) => setCountry(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#635BFF] focus:border-transparent text-base text-gray-600 appearance-none bg-white"
+                onChange={(e) => {
+                  setCountry(e.target.value);
+                  clearError("country");
+                }}
+                className={`w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:border-transparent text-base text-gray-600 appearance-none bg-white ${
+                  errors.country
+                    ? "border-red-500 focus:ring-red-500"
+                    : "border-gray-300 focus:ring-[#635BFF]"
+                }`}
               >
                 <option value="" disabled>
                   Select country
@@ -343,6 +499,9 @@ export default function StripeCheckoutUI({
                 </svg>
               </div>
             </div>
+            {errors.country && (
+              <p className="text-red-500 text-sm mt-1">{errors.country}</p>
+            )}
           </div>
 
           {/* Save Information Checkbox */}

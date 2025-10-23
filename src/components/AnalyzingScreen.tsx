@@ -21,7 +21,7 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
           height="48"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="white"
+          stroke="#1F2937"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -40,7 +40,7 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
           height="48"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="white"
+          stroke="#1F2937"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -60,7 +60,7 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
           height="48"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="white"
+          stroke="#1F2937"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -79,7 +79,7 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
           height="48"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="white"
+          stroke="#1F2937"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -97,7 +97,7 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
           height="48"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="white"
+          stroke="#1F2937"
           strokeWidth="2"
           strokeLinecap="round"
           strokeLinejoin="round"
@@ -153,7 +153,7 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
         {/* AI Icon with pulse animation - changes with each step */}
         <div className="relative">
           <div className="absolute inset-0 bg-[#FF897C] rounded-full opacity-20 animate-ping" />
-          <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-[#FF897C] to-[#FFA88A] flex items-center justify-center">
+          <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-white/90 to-gray-100 flex items-center justify-center shadow-lg">
             <div className="animate-pulse transition-all duration-500 ease-in-out animate-icon-change" key={currentMessage}>
               {analysisSteps[currentMessage].icon}
             </div>
@@ -192,7 +192,7 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="w-3 h-3 rounded-full bg-[#FF897C] animate-bounce"
+              className="w-3 h-3 rounded-full bg-white/80 shadow-md animate-bounce"
               style={{
                 animationDelay: `${i * 0.15}s`,
                 animationDuration: "0.6s",

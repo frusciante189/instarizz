@@ -1,7 +1,5 @@
 export const STEPS = [
-  { id: 1, slug: "gender", questionId: 1 },
   { id: 2, slug: "age", questionId: 2 },
-  { id: 3, slug: "interested-in", questionId: 3 },
   { id: 4, slug: "looking-for", questionId: 4 },
   { id: 5, slug: "age-range", questionId: 5 },
   { id: 6, slug: "email", questionId: 6 },

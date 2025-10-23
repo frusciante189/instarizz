@@ -104,7 +104,7 @@
     "description": "What age range are you\nlooking to attract?",
     "type": "slider",
     "min": 18,
-    "max": 70,
+    "max": 50,
     "defaultValue": [25, 35]
   },
   {

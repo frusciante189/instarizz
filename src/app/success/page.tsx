@@ -5,12 +5,37 @@ import { getAnswer } from "@/utils/answers";
 
 export default function SuccessPage() {
   const [email, setEmail] = useState("");
+  const [_, setIsSaving] = useState(false);
 
   useEffect(() => {
     // Get email from answers (question ID 6)
     const emailAnswer = getAnswer(6);
     if (emailAnswer && typeof emailAnswer === "string") {
       setEmail(emailAnswer);
+
+      // Save email to Google Sheets
+      const saveEmail = async () => {
+        setIsSaving(true);
+        try {
+          const response = await fetch("/api/save-email", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: emailAnswer }),
+          });
+
+          if (!response.ok) {
+            console.error("Failed to save email");
+          }
+        } catch (error) {
+          console.error("Error saving email:", error);
+        } finally {
+          setIsSaving(false);
+        }
+      };
+
+      saveEmail();
     }
   }, []);
 
@@ -43,7 +68,8 @@ export default function SuccessPage() {
                   This was just a test payment
                 </p>
                 <p className="text-black/70 font-medium text-base text-center leading-relaxed">
-                  We didn&apos;t charge you anything. This is only a demo to show you how the checkout process works!
+                  We didn&apos;t charge you anything. This is only a demo to
+                  show you how the checkout process works!
                 </p>
               </div>
 
@@ -59,7 +85,8 @@ export default function SuccessPage() {
                   Actual App Coming Soon!
                 </p>
                 <p className="text-black/70 font-medium text-base text-center leading-relaxed mb-4">
-                  The full Instagram Profile Analysis app will be launching in just a few days.
+                  The full Instagram Profile Analysis app will be launching in
+                  just a few days.
                 </p>
                 <div className="bg-gradient-to-r from-[#FF6F91] to-[#FF9671] rounded-2xl p-4">
                   <p className="text-white font-bold text-sm text-center mb-1">
@@ -84,16 +111,28 @@ export default function SuccessPage() {
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
-                    <span className="text-[#FF6F91] font-bold text-xl mt-0.5 flex-shrink-0">•</span>
-                    <span className="text-black/80 font-medium">Deep AI-powered analysis of your Instagram profile</span>
+                    <span className="text-[#FF6F91] font-bold text-xl mt-0.5 flex-shrink-0">
+                      •
+                    </span>
+                    <span className="text-black/80 font-medium">
+                      Deep AI-powered analysis of your Instagram profile
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-[#FF6F91] font-bold text-xl mt-0.5 flex-shrink-0">•</span>
-                    <span className="text-black/80 font-medium">Personalized recommendations to boost engagement</span>
+                    <span className="text-[#FF6F91] font-bold text-xl mt-0.5 flex-shrink-0">
+                      •
+                    </span>
+                    <span className="text-black/80 font-medium">
+                      Personalized recommendations to boost engagement
+                    </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <span className="text-[#FF6F91] font-bold text-xl mt-0.5 flex-shrink-0">•</span>
-                    <span className="text-black/80 font-medium">Content strategy tips for better reach</span>
+                    <span className="text-[#FF6F91] font-bold text-xl mt-0.5 flex-shrink-0">
+                      •
+                    </span>
+                    <span className="text-black/80 font-medium">
+                      Content strategy tips for better reach
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -104,7 +143,7 @@ export default function SuccessPage() {
         {/* Bottom Button - Fixed like onboarding */}
         <div className="sticky bottom-0 w-full bg-gradient-to-t from-[#FF9671] via-[#FF9671] to-transparent pt-6 pb-8 flex justify-center">
           <button
-            onClick={() => window.location.href = "/"}
+            onClick={() => (window.location.href = "/")}
             className="h-20 w-20 rounded-full bg-white shadow-[0px_0px_30px_0px_#FF897C] hover:shadow-[0px_0px_40px_0px_#FF897C] transition-all flex items-center justify-center"
           >
             <span className="text-black font-extrabold text-2xl leading-none">
