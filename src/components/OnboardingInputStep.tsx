@@ -21,6 +21,7 @@ export default function OnboardingInputStep({
 }: OnboardingInputStepProps) {
   const [value, setValue] = useState<string>(currentValue || "");
   const [error, setError] = useState<string>("");
+  const [isActive, setIsActive] = useState(false);
 
   // Update state when currentValue prop changes
   useEffect(() => {
@@ -53,7 +54,10 @@ export default function OnboardingInputStep({
     }
 
     setError("");
-    onContinue(value);
+    setIsActive(true);
+    setTimeout(() => {
+      onContinue(value);
+    }, 200);
   };
 
   return (
@@ -91,7 +95,7 @@ export default function OnboardingInputStep({
       </div>
 
       <div className="sticky bottom-0 w-full bg-gradient-to-t from-[#FF9671] via-[#FF9671] to-transparent pt-6 pb-8 flex justify-center">
-        <Button onClick={handleContinue} isActive={false}>
+        <Button onClick={handleContinue} isActive={isActive}>
           <span className="text-black font-extrabold text-2xl leading-none">
             Continue
           </span>

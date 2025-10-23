@@ -152,9 +152,12 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
       <div className="flex flex-col items-center gap-8 mt-12 w-full max-w-[600px]">
         {/* AI Icon with pulse animation - changes with each step */}
         <div className="relative">
-          <div className="absolute inset-0 bg-[#FF897C] rounded-full opacity-20 animate-ping" />
-          <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-white/90 to-gray-100 flex items-center justify-center shadow-lg">
-            <div className="animate-pulse transition-all duration-500 ease-in-out animate-icon-change" key={currentMessage}>
+          <div className="absolute inset-0 bg-[#FFF2E1] rounded-full opacity-20 animate-ping" />
+          <div className="relative w-24 h-24 rounded-full bg-[#FFF2E1] flex items-center justify-center shadow-lg">
+            <div
+              className="animate-pulse transition-all duration-500 ease-in-out animate-icon-change"
+              key={currentMessage}
+            >
               {analysisSteps[currentMessage].icon}
             </div>
           </div>
@@ -162,7 +165,10 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
 
         {/* Status message */}
         <div className="h-8 flex items-center justify-center">
-          <p className="text-black font-extrabold text-lg text-center animate-fade-in" key={currentMessage}>
+          <p
+            className="text-black font-extrabold text-lg text-center animate-fade-in"
+            key={currentMessage}
+          >
             {analysisSteps[currentMessage].message}
           </p>
         </div>
@@ -192,7 +198,7 @@ export default function AnalyzingScreen({ onComplete }: AnalyzingScreenProps) {
           {[0, 1, 2].map((i) => (
             <div
               key={i}
-              className="w-3 h-3 rounded-full bg-white/80 shadow-md animate-bounce"
+              className="w-3 h-3 rounded-full bg-[#FFF2E1] shadow-md animate-bounce"
               style={{
                 animationDelay: `${i * 0.15}s`,
                 animationDuration: "0.6s",

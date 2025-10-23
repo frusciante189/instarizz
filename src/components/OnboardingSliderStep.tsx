@@ -25,6 +25,7 @@ export default function OnboardingSliderStep({
   onContinue,
 }: OnboardingSliderStepProps) {
   const [value, setValue] = useState<number[]>(currentValue || defaultValue);
+  const [isActive, setIsActive] = useState(false);
 
   // Update state when currentValue prop changes
   useEffect(() => {
@@ -32,6 +33,13 @@ export default function OnboardingSliderStep({
       setValue(currentValue);
     }
   }, [currentValue]);
+
+  const handleContinue = () => {
+    setIsActive(true);
+    setTimeout(() => {
+      onContinue(value);
+    }, 200);
+  };
 
   return (
     <div className="flex flex-col h-full flex-1">
@@ -71,7 +79,7 @@ export default function OnboardingSliderStep({
       </div>
 
       <div className="sticky bottom-0 w-full bg-gradient-to-t from-[#FF9671] via-[#FF9671] to-transparent pt-6 pb-8 flex justify-center">
-        <Button onClick={() => onContinue(value)} isActive={false}>
+        <Button onClick={handleContinue} isActive={isActive}>
           <span className="text-black font-extrabold text-2xl leading-none">
             Continue
           </span>
