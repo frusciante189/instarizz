@@ -19,7 +19,7 @@ export default function Button({
     }
 
     return isActive
-      ? "bg-gradient-to-b from-[#FFBFA8] to-[#FFA88A] border-[#E38E75]/80"
+      ? "bg-gradient-to-br from-[#FFD700] to-[#FFA500] border-[#FFA500]/80"
       : "bg-[#FFF2E1] border-[#D8C8B9]/60";
   };
 

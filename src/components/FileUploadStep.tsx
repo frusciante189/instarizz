@@ -8,16 +8,19 @@ const MAX_FILES = 10;
 
 interface FileUploadStepProps {
   question: string;
-  onContinue: (files: File[]) => void;
+  onContinue: (files: File[], username?: string) => void;
   currentFiles?: File[];
+  currentUsername?: string;
 }
 
 export default function FileUploadStep({
   question,
   onContinue,
   currentFiles = [],
+  currentUsername = "",
 }: FileUploadStepProps) {
   const [files, setFiles] = useState<File[]>(currentFiles);
+  const [username, setUsername] = useState<string>(currentUsername);
   const [error, setError] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -52,12 +55,22 @@ export default function FileUploadStep({
   };
 
   const handleContinue = () => {
-    if (files.length === 0) {
-      setError("Please upload at least 1 image");
+    if (files.length === 0 && !username.trim()) {
+      setError(
+        "Please upload at least 1 screenshot or enter your Instagram username"
+      );
       return;
     }
     setError("");
-    onContinue(files);
+    onContinue(files, username.trim() || undefined);
+  };
+
+  const handleUsernameChange = (newUsername: string) => {
+    setUsername(newUsername);
+    // Clear error when user starts typing
+    if (error) {
+      setError("");
+    }
   };
 
   return (
@@ -65,10 +78,31 @@ export default function FileUploadStep({
       <div className="flex-1 overflow-y-auto py-8 pb-32">
         <div className="flex flex-col items-center">
           <Title>{question}</Title>
-          <p className="text-black text-base font-extrabold text-center mt-4">
+          {/* Username Input */}
+          <div className="w-full flex justify-center py-6 px-6 mt-6">
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => handleUsernameChange(e.target.value)}
+              placeholder="Enter Instagram username"
+              className="w-full text-xl font-extrabold text-[#0D0D0D] placeholder:text-[#0D0D0D] placeholder:opacity-50 text-center"
+              style={{
+                outline: "none",
+                border: "none",
+                background: "transparent",
+              }}
+            />
+          </div>
+
+          <p className="text-black text-sm font-bold text-center opacity-60 mb-4">
+            OR
+          </p>
+
+          <p className="text-black text-base font-extrabold text-center mb-2">
             Open your Instagram and take <br /> screenshots of your profile
           </p>
-          <div className="flex flex-col gap-6 my-8 w-full items-center">
+
+          <div className="flex flex-col gap-6 mt-4 w-full items-center">
             {/* Upload Button */}
             <button
               onClick={handleUploadClick}

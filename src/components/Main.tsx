@@ -175,7 +175,7 @@ const Main = () => {
             <div className="grid grid-cols-3 gap-3">
               <div className="bg-gradient-to-br from-[#FFD700] to-[#FFA500] rounded-xl p-4 shadow-lg text-center">
                 <div className="font-poppins font-black text-2xl text-white">
-                  270+
+                  13k+
                 </div>
                 <div className="font-poppins text-xs text-white/90 mt-1 font-bold">
                   Profiles Analyzed

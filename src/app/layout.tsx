@@ -12,13 +12,24 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://instarizz.com'),
+  metadataBase: new URL("https://instarizz.com"),
   title: {
-    default: "InstaRizz - AI-Powered Instagram Profile Analysis & Dating Insights",
-    template: "%s | InstaRizz"
+    default:
+      "InstaRizz - AI-Powered Instagram Profile Analysis & Dating Insights",
+    template: "%s | InstaRizz",
   },
-  description: "Get personalized AI analysis of your Instagram profile for dating success. Discover your dating potential, attract your ideal match, and optimize your profile with expert insights.",
-  keywords: ["Instagram profile analysis", "dating profile tips", "AI dating coach", "Instagram optimization", "dating insights", "profile improvement", "dating success", "social media dating"],
+  description:
+    "Get personalized AI analysis of your Instagram profile for dating success. Discover your dating potential, attract your ideal match, and optimize your profile with expert insights.",
+  keywords: [
+    "Instagram profile analysis",
+    "dating profile tips",
+    "AI dating coach",
+    "Instagram optimization",
+    "dating insights",
+    "profile improvement",
+    "dating success",
+    "social media dating",
+  ],
   authors: [{ name: "InstaRizz" }],
   creator: "InstaRizz",
   publisher: "InstaRizz",
@@ -32,21 +43,25 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://instarizz.com",
     siteName: "InstaRizz",
-    title: "InstaRizz - AI-Powered Instagram Profile Analysis & Dating Insights",
-    description: "Get personalized AI analysis of your Instagram profile for dating success. Discover your dating potential and attract your ideal match.",
+    title:
+      "InstaRizz - AI-Powered Instagram Profile Analysis & Dating Insights",
+    description:
+      "Get personalized AI analysis of your Instagram profile for dating success. Discover your dating potential and attract your ideal match.",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
         alt: "InstaRizz - AI-Powered Instagram Profile Analysis",
-      }
+      },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "InstaRizz - AI-Powered Instagram Profile Analysis & Dating Insights",
-    description: "Get personalized AI analysis of your Instagram profile for dating success. Discover your dating potential and attract your ideal match.",
+    title:
+      "InstaRizz - AI-Powered Instagram Profile Analysis & Dating Insights",
+    description:
+      "Get personalized AI analysis of your Instagram profile for dating success. Discover your dating potential and attract your ideal match.",
     images: ["/og-image.png"],
     creator: "@instarizz",
   },
@@ -56,18 +71,14 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
   icons: {
-    icon: [
-      { url: "/ir.png" },
-    ],
-    apple: [
-      { url: "/ir.png" },
-    ],
+    icon: [{ url: "/ir.png" }],
+    apple: [{ url: "/ir.png" }],
   },
   manifest: "/site.webmanifest",
   verification: {
@@ -98,7 +109,7 @@ export default function RootLayout({
         </Script>
         {/* Meta Pixel tracking */}
         <MetaPixel />
-        <div className="w-full max-w-md mx-auto min-h-dvh flex flex-col px-4">
+        <div className="w-full max-w-md mx-auto min-h-screen flex flex-col px-4">
           <div className="py-4">
             <Image
               src={"/instarizz.png"}
