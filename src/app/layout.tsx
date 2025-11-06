@@ -4,6 +4,7 @@ import "./globals.css";
 import Image from "next/image";
 import Script from "next/script";
 import MetaPixel from "@/components/MetaPixel";
+import Hotjar from "@/components/Hotjar";
 
 const poppins = Poppins({
   weight: ["400", "500", "600", "700"],
@@ -109,6 +110,8 @@ export default function RootLayout({
         </Script>
         {/* Meta Pixel tracking */}
         <MetaPixel />
+        {/* Hotjar tracking */}
+        <Hotjar />
         <div className="w-full max-w-md mx-auto min-h-screen flex flex-col px-4">
           <div className="py-4">
             <Image

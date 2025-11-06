@@ -1,50 +1,15 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import Title from "./Title";
-import PaywallDrawer from "./PaywallDrawer";
 
 export default function ResultsScreen() {
   const router = useRouter();
-  const [showPaywall, setShowPaywall] = useState(false);
-  const contentEndRef = useRef<HTMLDivElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
-  const isAtBottomRef = useRef(false);
 
-  // Detect scroll to bottom using Intersection Observer
-  useEffect(() => {
-    if (!contentEndRef.current) return;
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          const wasAtBottom = isAtBottomRef.current;
-          isAtBottomRef.current = entry.isIntersecting;
-
-          // Only show paywall if:
-          // 1. User just reached the bottom (wasn't there before)
-          // 2. Drawer is not already open
-          if (entry.isIntersecting && !wasAtBottom && !showPaywall) {
-            setShowPaywall(true);
-          }
-        });
-      },
-      {
-        root: null, // viewport
-        rootMargin: "200px 0px 0px 0px", // Trigger 200px before the marker enters viewport
-        threshold: 0,
-      }
-    );
-
-    observerRef.current.observe(contentEndRef.current);
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, [showPaywall]);
+  const handleUnlockClick = () => {
+    router.push("/checkout");
+  };
 
   return (
     <div className="flex flex-col items-center py-8 flex-1 relative">
@@ -105,7 +70,7 @@ export default function ResultsScreen() {
                   3 major red flags detected
                 </span>
                 <button
-                  onClick={() => setShowPaywall(true)}
+                  onClick={handleUnlockClick}
                   className="block text-[#FF6B5B] text-sm mt-1 italic underline hover:text-[#FF897C] transition-colors cursor-pointer"
                 >
                   Unlock to see specific issues
@@ -139,7 +104,7 @@ export default function ResultsScreen() {
 
         {/* Hidden Potential - Create curiosity */}
         <button
-          onClick={() => setShowPaywall(true)}
+          onClick={handleUnlockClick}
           className="bg-gradient-to-br from-[#FFBFA8] to-[#FFA88A] rounded-3xl p-6 border border-[#E38E75]/80 animate-fade-in relative w-full cursor-pointer hover:shadow-lg transition-shadow"
           style={{ animationDelay: "0.3s" }}
         >
@@ -200,7 +165,7 @@ export default function ResultsScreen() {
               </div>
             </div>
             <button
-              onClick={() => setShowPaywall(true)}
+              onClick={handleUnlockClick}
               className="relative w-full cursor-pointer hover:scale-105 transition-transform"
             >
               <div className="flex justify-between mb-2">
@@ -226,32 +191,20 @@ export default function ResultsScreen() {
             Top profiles score 8.5+. See exactly what separates you from them...
           </p>
         </div>
-
-        {/* Invisible marker for scroll detection - triggers paywall when visible */}
-        <div ref={contentEndRef} className="h-px" />
       </div>
 
-      {/* Sticky Bottom Button - Only show when paywall is not open */}
-      {!showPaywall && (
-        <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#FFF5F0] via-[#FFF5F0]/95 to-transparent pointer-events-none">
-          <div className="max-w-[600px] mx-auto pointer-events-auto">
-            <button
-              onClick={() => setShowPaywall(true)}
-              className="w-full bg-[#00D66F] text-white font-bold text-lg py-4 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
-            >
-              <span className="text-2xl">🔓</span>
-              Unlock Full Report
-            </button>
-          </div>
+      {/* Sticky Bottom Button - Always visible */}
+      <div className="fixed bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-[#FFF5F0] via-[#FFF5F0]/95 to-transparent pointer-events-none">
+        <div className="max-w-[600px] mx-auto pointer-events-auto">
+          <button
+            onClick={handleUnlockClick}
+            className="w-full bg-[#00D66F] text-white font-bold text-lg py-4 px-6 rounded-full shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+          >
+            <span className="text-2xl">🔓</span>
+            Unlock Full Report
+          </button>
         </div>
-      )}
-
-      {/* Paywall Drawer */}
-      <PaywallDrawer
-        isOpen={showPaywall}
-        onClose={() => setShowPaywall(false)}
-        onOpenCheckout={() => router.push("/checkout")}
-      />
+      </div>
     </div>
   );
 }
