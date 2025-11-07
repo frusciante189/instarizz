@@ -10,6 +10,7 @@ import {
   STEPS,
 } from "@/config/steps";
 import { saveAnswer, getAnswer } from "@/utils/answers";
+import { saveFilesToSession } from "@/utils/fileStorage";
 import OnboardingStep from "@/components/OnboardingStep";
 import OnboardingSliderStep from "@/components/OnboardingSliderStep";
 import OnboardingInputStep from "@/components/OnboardingInputStep";
@@ -91,7 +92,18 @@ export default function OnboardingStepPage() {
               ? (currentValue as File[])
               : []
           }
-          onContinue={(files: File[]) => handleSelect(files)}
+          onContinue={async (files: File[], username?: string) => {
+            // Save both files and username
+            if (username) {
+              // Save username separately (questionId 7 for files, 8 for username)
+              saveAnswer(step.questionId + 1, username);
+            }
+            // Save files to sessionStorage
+            if (files.length > 0) {
+              await saveFilesToSession(files);
+            }
+            handleSelect(files);
+          }}
         />
       ) : isSliderStep ? (
         <OnboardingSliderStep
