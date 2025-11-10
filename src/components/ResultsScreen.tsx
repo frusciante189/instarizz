@@ -1,11 +1,30 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Title from "./Title";
+import { getAnswer } from "@/utils/answers";
+import { getFilesFromSession, type StoredFile } from "@/utils/fileStorage";
 
 export default function ResultsScreen() {
   const router = useRouter();
+  const [username, setUsername] = useState<string>("");
+  const [uploadedFiles, setUploadedFiles] = useState<StoredFile[]>([]);
+
+  // Load username and files
+  useEffect(() => {
+    const savedUsername = getAnswer(8); // questionId 8 for username
+    const savedFiles = getAnswer(7); // questionId 7 for files
+
+    if (savedUsername && typeof savedUsername === "string") {
+      setUsername(savedUsername);
+    }
+
+    if (savedFiles === "FILE_UPLOADED") {
+      const files = getFilesFromSession();
+      setUploadedFiles(files);
+    }
+  }, []);
 
   const handleUnlockClick = () => {
     router.push("/checkout");
@@ -14,6 +33,78 @@ export default function ResultsScreen() {
   return (
     <div className="flex flex-col items-center py-8 flex-1 relative">
       <Title>Your Profile Analysis</Title>
+
+      {/* Username or Files Info */}
+      {(username || uploadedFiles.length > 0) && (
+        <div className="w-full max-w-[600px] mt-6 px-6 py-4 bg-gradient-to-br from-[#FFD700] to-[#FFA500] rounded-2xl shadow-lg">
+          {username ? (
+            <div className="flex items-center justify-center gap-3">
+              <svg
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                className="text-black"
+              >
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+              <div className="flex flex-col">
+                <span className="text-black/60 text-xs font-semibold">
+                  Analyzing Profile
+                </span>
+                <span className="text-black font-bold text-lg">
+                  @{username}
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <div className="flex items-center justify-center gap-2 mb-3">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="text-black"
+                >
+                  <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
+                  <circle cx="9" cy="9" r="2" />
+                  <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+                </svg>
+                <span className="text-black font-bold text-lg">
+                  {uploadedFiles.length} Screenshot{uploadedFiles.length > 1 ? 's' : ''} Analyzed
+                </span>
+              </div>
+              {/* Display thumbnails of uploaded images */}
+              <div className="grid grid-cols-5 gap-2">
+                {uploadedFiles.slice(0, 5).map((file, index) => (
+                  <div
+                    key={index}
+                    className="aspect-square rounded-lg overflow-hidden border-2 border-black/10"
+                  >
+                    <img
+                      src={file.dataUrl}
+                      alt={`Screenshot ${index + 1}`}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+              {uploadedFiles.length > 5 && (
+                <p className="text-black/70 text-xs text-center mt-2 font-medium">
+                  +{uploadedFiles.length - 5} more analyzed
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="w-full max-w-[600px] mt-8 space-y-6 pb-24">
         {/* Overall Score - Lower, more concerning */}
