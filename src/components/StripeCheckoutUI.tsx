@@ -236,16 +236,39 @@ export default function StripeCheckoutUI({
             </div>
           </div>
 
-          <div className="text-center text-white space-y-2">
+          <div className="text-center text-white space-y-3">
             <h1 className="text-lg font-medium">
               Instagram Profile Full Analysis
             </h1>
-            <div className="text-4xl font-bold">$9.99</div>
-            <p className="text-sm">
-              Complete profile review with detailed insights and
-              <br />
-              personalized recommendations
-            </p>
+
+            {/* Pricing with strikethrough */}
+            <div className="space-y-1">
+              <div className="text-lg line-through opacity-70">$29.99</div>
+              <div className="text-5xl font-bold">$4.99</div>
+              <div className="inline-block bg-white/20 px-3 py-1 rounded-full text-xs font-semibold">
+                LIMITED TIME: 83% OFF
+              </div>
+            </div>
+
+            {/* Key Benefits */}
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mt-4 space-y-2.5 text-left">
+              <div className="flex items-start gap-2">
+                <span className="text-green-300 text-lg mt-0.5">✓</span>
+                <span className="text-sm font-medium">Lifetime Access - Pay once, use forever</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-green-300 text-lg mt-0.5">✓</span>
+                <span className="text-sm font-medium">Unlimited Analysis & Tips - No restrictions</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-green-300 text-lg mt-0.5">✓</span>
+                <span className="text-sm font-medium">AI-Powered Improvements for your Instagram</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="text-green-300 text-lg mt-0.5">✓</span>
+                <span className="text-sm font-medium">Personalized Growth Strategy & Recommendations</span>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -761,6 +784,29 @@ export default function StripeCheckoutUI({
               "Pay"
             )}
           </button>
+
+          {/* 30-Day Money Back Guarantee Badge */}
+          <div className="flex items-center justify-center gap-2 py-3 bg-green-50 rounded-xl border border-green-200">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              className="text-green-600"
+            >
+              <path
+                d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            <div className="text-sm">
+              <div className="font-semibold text-green-800">30-Day Money Back Guarantee</div>
+              <div className="text-xs text-green-600">100% Risk-Free - Full refund if not satisfied</div>
+            </div>
+          </div>
 
           {/* Footer */}
           <div className="flex items-center justify-center gap-4 text-xs text-gray-500 pt-2">
